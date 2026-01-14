@@ -21,11 +21,11 @@ By the end of this lab, you will be able to:
 
 ## Part 1: Deploy the CloudFormation Stack
 
-### Step 1: Prepare the Template
+### Step 1: Open the Template in CloudFormation
 1. Open the AWS Console and be sure you are signed in.
 2. Open the instructor's [**Launch Template**](https://us-east-1.console.aws.amazon.com/cloudformation/home/?region=us-east-1#/stacks/quickcreate?templateURL=https://s3.amazonaws.com/uvasds-systems/cloudformation/ec2-with-bucket-policy.yaml&stackName=refarch1).
 
-### Step 2: Specify Stack Details
+### Step 2: Quick create stack
 1. **Stack name**: Leave the default value for this, `refarch1`.
 2. Fill in the parameters:
    - **InstanceType**: Leave as `t3.micro` (default)
@@ -34,18 +34,10 @@ By the end of this lab, you will be able to:
    - **SSHLocation**: Leave as `0.0.0.0/0` (or restrict to your IP for security)
    - **SubnetId**: Select any **public** subnet from the dropdown
    - **VPC**: Select the VPC that contains your chosen subnet
-3. Click **Next**
+3. Scroll to the bottom and check the box: **"I acknowledge that AWS CloudFormation might create IAM resources"**
+4. Click **Submit**
 
-### Step 3: Configure Stack Options
-1. Leave all settings as default on this page
-2. Scroll down and click **Next**
-
-### Step 4: Review and Create
-1. Review your settings
-2. Scroll to the bottom and check the box: **"I acknowledge that AWS CloudFormation might create IAM resources"**
-3. Click **Submit**
-
-### Step 5: Monitor Stack Creation
+### Step 3: Monitor Stack Creation
 1. You'll be taken to the stack details page
 2. Watch the **Events** tab to see resources being created in real-time
 3. Wait until the stack status shows **CREATE_COMPLETE** (this takes 3-5 minutes)
@@ -87,7 +79,7 @@ Now that your stack is deployed, let's find and examine each resource it created
 
 1. Navigate to **S3** service
 2. Find your bucket (should be named `[your-uva-id]-[stack-name]`)
-3. Click on the bucket name to explore it
+3. Click on the bucket name to explore it.
 4. Check the following tabs:
    - **Properties**: Is versioning enabled?
    - **Permissions**: What public access settings are configured?
@@ -95,9 +87,12 @@ Now that your stack is deployed, let's find and examine each resource it created
 **Test S3 access from EC2:**
 ```bash
 # SSH into your instance (replace with your key and IP)
+# Before you use your key, move it to your home directory
+# within the `.ssh` directory and then limit its permissions:
+# chmod 600 ~/.ssh/your-key.pem
 ssh -i your-key.pem ec2-user@[PUBLIC-IP]
 
-# List bucket contents
+# List bucket contents from within the instance
 aws s3 ls s3://[your-bucket-name]/
 
 # Create a test file
@@ -114,6 +109,9 @@ aws s3 cp s3://[your-bucket-name]/test.txt downloaded.txt
 
 # View contents
 cat downloaded.txt
+
+# Delete the file in S3
+aws s3 rm s3://[your-bucket-name]/test.txt
 ```
 
 ### Resource 4: IAM Role
@@ -143,22 +141,12 @@ cat downloaded.txt
 3. Go to the **Security** tab
 4. Confirm the IAM role name matches what you found earlier
 
-## Part 3: Understanding Resource Relationships
-
-Draw a diagram or create a list showing how these resources connect:
-
-**Example relationships to document:**
-- EC2 Instance → uses → IAM Instance Profile → contains → IAM Role
-- IAM Role → has policy → S3 Bucket Access Policy → grants access to → S3 Bucket
-- EC2 Instance → protected by → Security Group → allows → ports 22 and 80
-- EC2 Instance → runs in → Subnet → part of → VPC
-
 ## Part 4: Examine CloudFormation Outputs
 
 1. Return to **CloudFormation** → **Stacks**
 2. Click on your stack name
 3. Go to the **Outputs** tab
-4. Record all the output values:
+4. Record the output values where possible in the worksheet:
    - InstanceId: _____
    - InstancePublicIP: _____
    - SecurityGroupId: _____
@@ -188,16 +176,6 @@ This tab shows the complete inventory of what CloudFormation created for you.
 6. Verify in S3 that your bucket was deleted (it should be empty first)
 
 **Note:** If deletion fails, check the Events tab for errors. S3 buckets must be empty to delete.
-
-## Deliverables
-
-Submit a document containing:
-1. Screenshots of each resource type in the AWS Console
-2. Your completed recordings from Parts 2-4
-3. A diagram showing how the resources connect
-4. Answers to the questions posed throughout the lab
-5. The output from your S3 testing commands
-6. A brief reflection (2-3 sentences) on what you learned about infrastructure as code
 
 ## Discussion Questions
 

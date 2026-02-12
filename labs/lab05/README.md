@@ -73,8 +73,8 @@ Launch a new Ubuntu instance in EC2 with the following specifications:
 Create a file named `main.py` with content from [this source](main.py).
 
 This simple API sends and receives JSON data payloads, and its primary purpose
-for this lab is to receive or "catch" JSON event messages sent via SNS triggered
-by new files arriving in S3. The `data/` endpoint of the API will receive the
+for this lab is to receive or "catch" JSON event messages sent via SNS, which are triggered
+whenever new files arrive in S3. The `data/` resource of the API will receive the
 notification via an HTTP POST and then parse its contents.
 
 ### Step 1.3: Bootstrap Your Instance

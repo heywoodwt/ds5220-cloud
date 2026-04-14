@@ -3,9 +3,9 @@
 ## Container Image
 
 References:
-- `app.py`
-- `Dockerfile`
-- `requirements.txt`
+- [`app.py`](app.py)
+- [`Dockerfile`](Dockerfile)
+- [`requirements.txt`](requirements.txt)
   
 ```
 # Simple build

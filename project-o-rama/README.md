@@ -1,6 +1,6 @@
-# DS5220 — End-of-Term In-Class Projects
+# DS5220 — End of Term Projectorama
 
-Choose **one** of the four projects below. You'll work in small groups (2–3 people) during class. The goal is to get something working end-to-end by the end of the session — polish and extensions are bonuses, not requirements.
+Choose **one** of the four projects below. Work in small groups (2–3 people) during class. The goal is to get something working end-to-end by the end of the session — polish and extensions are bonuses, not requirements.
 
 All projects use **AWS** as the cloud provider. You'll need your course AWS account and credentials configured.
 
@@ -237,6 +237,7 @@ except dynamodb.meta.client.exceptions.ConditionalCheckFailedException:
     return {'statusCode': 404, 'body': 'Note not found or already read'}
 ```
 
+- Configure TTL as a setting **when you create the DynamoDB table**. Refer to AWS documentation for how to do this.
 - Set `ttl` as a Unix timestamp (`int(time.time()) + 86400` for 24 hours) and **enable TTL on the table** pointing at the `ttl` attribute
 - Note: DynamoDB TTL deletion is eventual (within ~48 hours) — for a true hard expiry, check `ttl > time.time()` in your read Lambda before returning
 

@@ -51,7 +51,7 @@ flowchart LR
 ### Key Implementation Notes
 
 - Generate short codes with Python's `secrets.token_urlsafe(6)` or similar — 6–8 characters is plenty
-- The redirect Lambda must return a `statusCode: 301` with a `Location` header pointing to the original URL
+- The redirect Lambda must return an HTTP `statusCode: 301` header with a `Location` header pointing to the original URL
 - Add a `ttl` attribute (Unix timestamp) to DynamoDB items and enable TTL on the table — links can expire automatically
 - Consider what happens if someone submits the same URL twice — do you deduplicate?
 

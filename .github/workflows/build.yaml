@@ -44,7 +44,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./reference-iac/discord-bot
+          file: ./reference-iac/discord-bot/Dockerfile
           platforms: linux/amd64,linux/arm64
           provenance: false
           push: ${{ github.event_name != 'pull_request' }}
